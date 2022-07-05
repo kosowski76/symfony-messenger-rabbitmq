@@ -19,12 +19,12 @@ class UserSendFile
      * UserRegistrationEmail constructor.
      *
      * @param int $userId
-     * @param Request $file
+     * @param array $context
      */
-    public function __construct(int $userId, Request $file)
+    public function __construct(int $userId, array $context)
     {
         $this->userId = $userId;
-        $this->file = $file;
+        $this->file = $context;
     }
 
     /**
@@ -36,9 +36,9 @@ class UserSendFile
     }
 
     /**
-     * @return Request
+     * @return array
      */
-    public function getUploadedFile(): Request
+    public function getUploadedFile(): array
     {
         return $this->file;
     }
