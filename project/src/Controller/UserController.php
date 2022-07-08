@@ -6,11 +6,11 @@ use App\Form\SendFileFormType;
 use App\Message\UserSendComment;
 use App\Message\UserRegistrationEmail;
 use App\Message\UserSendFile;
-use Symfony\Component\HttpFoundation\File\File;
-// use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Shared\Infrastructure\Library\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -20,7 +20,6 @@ use Twig\Environment;
 class UserController extends AbstractController
 {
     private $twig;
-    //private File $fileData;
     private FormInterface $form;
 
     public function __construct(Environment $twig)
@@ -33,7 +32,7 @@ class UserController extends AbstractController
      *
      * @return Response
      */
-    public function userSendFile(Request $request, MessageBusInterface $bus): Response
+    public function userSendFileForm(Request $request, MessageBusInterface $bus, FileUploader $fileUploader, string $uploadDir): Response
     {
         // $user_id is got from authorization for example
         $user_id = 2;
@@ -41,20 +40,29 @@ class UserController extends AbstractController
         $form = $this->createForm(SendFileFormType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            /** @var  UploadedFile $uploadedFile */
+            $uploadedFile = $form->get('photo')->getData();
+            if ($uploadedFile)
+            {
+                $uploadedFileName = $fileUploader->upload($uploadedFile);
+            }
 
 
-            $bus->dispatch(new UserSendFile($user_id, $request));
-            // $bus->dispatch(new UserRegistrationEmail($user_id));
 
-            // return new Response('User has been sent file.');
+
+
+            $context = ["test" => $uploadedFileName];
+            $bus->dispatch(new UserSendFile($user_id, $context));
+
+            return new Response('User has been sent file.');
         }
 
         return new Response($this->twig->render('user/send-file.html.twig', [
             'send_file_form' => $form->createView(),
         ]));
     }
-
 
     /**
      * @Route("/user/send-comment", name="user_send_comment")
@@ -79,7 +87,6 @@ class UserController extends AbstractController
             ];
 
             $bus->dispatch(new UserSendComment($user_id, $context));
-            // $bus->dispatch(new UserRegistrationEmail($user_id));
 
             return new Response('Comment has been sent. ' . $context['permalink']);
         }

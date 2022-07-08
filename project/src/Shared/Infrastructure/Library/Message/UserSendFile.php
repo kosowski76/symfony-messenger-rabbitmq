@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UserSendFile
 {
     private int $userId;
-    private Request $file;
+    private array $context;
 
     /**
      * UserRegistrationEmail constructor.
@@ -24,7 +24,7 @@ class UserSendFile
     public function __construct(int $userId, array $context)
     {
         $this->userId = $userId;
-        $this->file = $context;
+        $this->context = $context;
     }
 
     /**
@@ -40,6 +40,6 @@ class UserSendFile
      */
     public function getUploadedFile(): array
     {
-        return $this->file;
+        return $this->context;
     }
 }

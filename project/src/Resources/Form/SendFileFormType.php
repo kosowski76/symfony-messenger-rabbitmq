@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Image;
 
 class SendFileFormType extends AbstractType
 {
@@ -16,9 +17,12 @@ class SendFileFormType extends AbstractType
                 'label' => 'Title file',
             ])
             ->add('text')
-            ->add('filex', FileType::class, [
+            ->add('photo', FileType::class, [
                 'required' => true,
                 'mapped' => false,
+                'constraints' => [
+                        new Image(['maxSize' => '1024k'])
+                ],
             ])
             ->add('submit', SubmitType::class);
     }
