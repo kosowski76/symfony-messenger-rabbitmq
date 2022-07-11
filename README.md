@@ -1,5 +1,5 @@
 
-# Content of the example task 'symfony-messenger-rabbitmq'
+## Content of the example task 'symfony-messenger-rabbitmq'
 
 ## Image downloader with queueing
 
