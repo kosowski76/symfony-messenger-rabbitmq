@@ -1,14 +1,11 @@
 <?php
+# project/src/Shared/Infrastructure/Library/Message/UserSendFile.php
 
-# project/src/Message/UserSendFile.php
-
-namespace App\Message;
+namespace App\Shared\Infrastructure\Library\Message;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
-
-//use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserSendFile
 {
@@ -38,7 +35,7 @@ class UserSendFile
     /**
      * @return array
      */
-    public function getUploadedFile(): array
+    public function getContext(): array
     {
         return $this->context;
     }

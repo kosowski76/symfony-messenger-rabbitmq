@@ -13,10 +13,8 @@ framework:
         routing:
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
-            'App\Message\SleepMessage': amqp
-            'App\Message\UserRegistrationEmail': amqp
-            'App\Message\UserSendFile': amqp
-            'App\Message\UserSendComment': amqp
+            'App\Shared\Infrastructure\Library\Message\SleepMessage': amqp
+            'App\Shared\Infrastructure\Library\Message\UserSendFile': amqp
 
 # when@test:
 #    framework:

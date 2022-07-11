@@ -1,8 +1,7 @@
 <?php
+# project/src/Shared/Infrastructure/Library/Message/SleepMessage.php
 
-# project/src/Message/SleepMessage.php
-
-namespace App\Message;
+namespace App\Shared\Infrastructure\Library\Message;
 
 class SleepMessage
 {
