@@ -27,6 +27,16 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/", name="homepage")
+     *
+     * @return Response
+     */
+    public function index(): Response
+    {
+        return new Response($this->twig->render('user/index.html.twig'));
+    }
+
+    /**
      * @Route("/user/send-file", name="user_send_file")
      *
      * @return Response
